@@ -30,7 +30,7 @@ export function Navbar() {
           <div>
             <div className="text-lg font-extrabold tracking-tight text-slate-950">Zeebrag</div>
             <div className="text-xs uppercase tracking-[0.25em] text-slate-500">
-              Growth Studio
+              Growth-Tech Partner
             </div>
           </div>
         </Link>
