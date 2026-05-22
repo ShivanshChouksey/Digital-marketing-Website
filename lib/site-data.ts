@@ -323,7 +323,7 @@ export const blogs: BlogPost[] = [
 export const caseStudies: CaseStudy[] = [
   {
     slug: "saas-demand-generation",
-    client: "NovaSkale",
+    client: "Vaibhav Solar Solution",
     industry: "B2B SaaS",
     problem:
       "The company had strong product-market fit but low inbound volume, inconsistent paid results, and a weak founder-led content presence.",

@@ -43,30 +43,6 @@ const whyZeebrag = [
   },
 ];
 
-const contentShowcase = [
-  {
-    format: "Founder reel",
-    title: "Short-form authority clips",
-    description:
-      "Scripted for relevance, edited for retention, and designed to make expertise feel easy to trust.",
-    accent: "from-[#02253f] to-[#0477BF]",
-  },
-  {
-    format: "Carousel system",
-    title: "Swipeable education that sells",
-    description:
-      "Structured for saves, shares, and stronger category recall without sounding generic or overly salesy.",
-    accent: "from-[#034C8C] to-[#0b8bd9]",
-  },
-  {
-    format: "Brand campaign",
-    title: "Luxury-feel creative direction",
-    description:
-      "Visual systems that make your brand look current, intentional, and globally competitive across platforms.",
-    accent: "from-[#111827] to-[#F26A1B]",
-  },
-];
-
 const processSteps = [
   {
     title: "Audit the brand and funnel",
@@ -284,68 +260,6 @@ export function HomePage() {
                   <p className="mt-3 text-sm leading-7 text-slate-600">
                     {item.description}
                   </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="py-20">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-            <SectionHeading
-              eyebrow="Content We Create"
-              title="Social-native content systems built for modern attention"
-              description="From reel covers and carousels to founder-led storytelling and luxury-feel campaign design, the work is built to feel relevant before it ever tries to sell."
-            />
-            <Reveal delay={0.08}>
-              <p className="text-base leading-8 text-slate-600">
-                We do not create filler content. We create assets designed to stop
-                scrolling, deepen recall, and strengthen the trust layer between your
-                brand and the people discovering it. If you want to see how that
-                connects to results, visit our <Link href="/case-studies" className="font-semibold text-[var(--color-primary)]">case studies</Link> or explore the
-                strategic side of our <Link href="/services/personal-branding" className="font-semibold text-[var(--color-primary)]">personal branding service</Link>.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {contentShowcase.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.06}>
-                <article className="group overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                  <div className={`relative h-72 bg-gradient-to-br ${item.accent} p-6 text-white`}>
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_38%)]" />
-                    <div className="relative flex h-full flex-col justify-between">
-                      <div className="flex items-center justify-between">
-                        <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em]">
-                          {item.format}
-                        </span>
-                        <span className="rounded-full bg-white/12 px-3 py-1 text-xs">
-                          Hover-ready preview
-                        </span>
-                      </div>
-                      <div className="rounded-[1.5rem] border border-white/12 bg-white/10 p-4 backdrop-blur">
-                        <div className="mb-4 flex gap-2">
-                          <span className="h-2 w-12 rounded-full bg-white/50" />
-                          <span className="h-2 w-8 rounded-full bg-white/25" />
-                        </div>
-                        <div className="space-y-3">
-                          <div className="h-12 rounded-2xl bg-white/12" />
-                          <div className="h-12 rounded-2xl bg-white/8" />
-                          <div className="h-12 rounded-2xl bg-white/16" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-7">
-                    <h3 className="text-2xl font-bold tracking-tight text-slate-950">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                      {item.description}
-                    </p>
-                  </div>
                 </article>
               </Reveal>
             ))}
