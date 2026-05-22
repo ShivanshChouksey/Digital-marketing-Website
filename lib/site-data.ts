@@ -61,8 +61,6 @@ export const navItems: NavItem[] = [
 
 export const trustLogos = [
   "Sprintly Ventures",
-  "NovaSkale",
-  "UrbanMint",
   "Clario Health",
   "Founders Loop",
   "Nexa Commerce",
@@ -343,29 +341,6 @@ export const caseStudies: CaseStudy[] = [
     seoTitle: "B2B SaaS Demand Generation Case Study | Zeebrag",
     seoDescription:
       "See how Zeebrag helped a B2B SaaS brand grow leads, ROAS, and organic traffic with a full-funnel growth system.",
-  },
-  {
-    slug: "d2c-brand-performance",
-    client: "UrbanMint",
-    industry: "D2C Ecommerce",
-    problem:
-      "UrbanMint faced rising acquisition costs, underperforming creatives, and a website that did not support premium product positioning.",
-    strategy:
-      "We refreshed the conversion journey, upgraded ad creative strategy, and layered performance reporting on top of the funnel.",
-    execution: [
-      "Built new landing pages for hero collections",
-      "Created a creative testing roadmap with UGC and founder angles",
-      "Optimized retargeting across Meta and Google Display",
-      "Improved checkout and product detail page trust elements",
-    ],
-    outcomes: [
-      { label: "Revenue lift", value: "41%" },
-      { label: "Cost per acquisition reduction", value: "27%" },
-      { label: "Conversion rate increase", value: "2.4x" },
-    ],
-    seoTitle: "D2C Brand Performance Marketing Case Study | Zeebrag",
-    seoDescription:
-      "Explore how Zeebrag improved acquisition efficiency and conversion performance for a D2C ecommerce brand.",
   },
 ];
 
