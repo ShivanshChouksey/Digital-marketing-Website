@@ -91,7 +91,7 @@ function AnalyticsExperience() {
           {[
             ["Qualified leads", "126"],
             ["CAC efficiency", "31% better"],
-            ["Avg. ROAS", "3.2x"],
+            ["Avg. ROAS", "25x+"],
           ].map(([label, value]) => (
             <div
               key={label}

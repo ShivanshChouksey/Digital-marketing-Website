@@ -69,7 +69,7 @@ export const trustLogos = [
 export const metrics = [
   { label: "Brands served", value: "50+" },
   { label: "Leads generated in 30 days", value: "120+" },
-  { label: "Average paid media ROAS", value: "3x" },
+  { label: "Average paid media ROAS", value: "25x+" },
   { label: "Organic traffic growth", value: "200%" },
 ];
 
