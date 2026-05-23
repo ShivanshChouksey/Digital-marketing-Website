@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { caseStudies, metrics, services, trustLogos } from "@/lib/site-data";
+import { caseStudies, metrics, services } from "@/lib/site-data";
 
 const whyZeebrag = [
   {
@@ -301,40 +301,6 @@ export function HomePage() {
               </Reveal>
             ))}
           </div>
-        </Container>
-      </section>
-
-      <section className="py-20">
-        <Container>
-          <Reveal>
-            <div className="rounded-[2.5rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
-              <div className="flex flex-wrap items-center gap-4">
-                {trustLogos.map((logo) => (
-                  <div
-                    key={logo}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-500"
-                  >
-                    {logo}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 grid gap-5 lg:grid-cols-4">
-                {[
-                  "Trusted by 50+ growing brands",
-                  "Helping brands grow across India and global markets",
-                  "Working across time zones with remote-first systems",
-                  "Built for modern founders, startups, and premium service brands",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] p-5 text-sm leading-7 text-slate-700"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
         </Container>
       </section>
 
