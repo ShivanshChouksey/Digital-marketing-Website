@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -19,12 +19,32 @@ export function CalendlyPopupButton({
   variant = "primary",
 }: CalendlyPopupButtonProps) {
   const [open, setOpen] = useState(false);
+  const [useDirectLink, setUseDirectLink] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncDirectLink = () => setUseDirectLink(mediaQuery.matches);
+
+    syncDirectLink();
+    mediaQuery.addEventListener("change", syncDirectLink);
+
+    return () => mediaQuery.removeEventListener("change", syncDirectLink);
+  }, []);
+
+  const handleOpen = () => {
+    if (useDirectLink) {
+      window.location.assign(calendlyUrl);
+      return;
+    }
+
+    setOpen(true);
+  };
 
   return (
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={handleOpen}
         className={cn(
           "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2",
           variant === "primary" &&
@@ -44,7 +64,7 @@ export function CalendlyPopupButton({
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/72 p-4 backdrop-blur-md"
+            className="fixed inset-0 z-[70] overflow-y-auto bg-slate-950/72 p-3 backdrop-blur-md sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -53,7 +73,7 @@ export function CalendlyPopupButton({
               role="dialog"
               aria-modal="true"
               aria-label="Book a strategy call with Zeebrag"
-              className="relative w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/10 bg-white shadow-[0_30px_120px_rgba(2,37,63,0.45)]"
+              className="relative mx-auto my-4 flex min-h-[calc(100dvh-1.5rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-white shadow-[0_30px_120px_rgba(2,37,63,0.45)] sm:my-6 sm:min-h-[min(860px,calc(100dvh-3rem))] sm:rounded-[2rem]"
               initial={{ opacity: 0, y: 24, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -62,18 +82,18 @@ export function CalendlyPopupButton({
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-sm font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm transition hover:text-slate-950"
+                className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm transition hover:text-slate-950 sm:right-4 sm:top-4 sm:h-11 sm:w-11 sm:text-sm"
                 aria-label="Close booking dialog"
               >
                 Close
               </button>
 
-              <div className="grid gap-0 lg:grid-cols-[0.38fr_0.62fr]">
-                <div className="bg-[linear-gradient(180deg,#02253f_0%,#034C8C_100%)] p-8 text-white sm:p-10">
+              <div className="grid flex-1 gap-0 lg:grid-cols-[0.38fr_0.62fr]">
+                <div className="bg-[linear-gradient(180deg,#02253f_0%,#034C8C_100%)] p-6 text-white sm:p-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/65">
                     Book Call
                   </p>
-                  <h3 className="mt-4 text-3xl font-extrabold tracking-tight">
+                  <h3 className="mt-4 text-2xl font-extrabold tracking-tight sm:text-3xl">
                     Book your free 30-min growth audit
                   </h3>
                   <p className="mt-4 text-sm leading-7 text-slate-200">
@@ -92,11 +112,11 @@ export function CalendlyPopupButton({
                   </div>
                 </div>
 
-                <div className="bg-white p-2 sm:p-3">
+                <div className="flex min-h-[65dvh] flex-col bg-white p-2 sm:min-h-0 sm:p-3">
                   <iframe
                     src={`${calendlyUrl}?hide_gdpr_banner=1&background_color=f8fbff&text_color=0f172a&primary_color=f26a1b`}
                     title="Calendly booking for Zeebrag"
-                    className="h-[70vh] min-h-[620px] w-full rounded-[1.5rem] border-0"
+                    className="min-h-[62dvh] w-full flex-1 rounded-[1.5rem] border-0 sm:min-h-0"
                     loading="lazy"
                   />
                 </div>

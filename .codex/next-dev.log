@@ -1,0 +1,17 @@
+
+> zeebrag-app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.218.217.11:3000
+✓ Ready in 2.3s
+
+ GET / 200 in 1272ms (next.js: 185ms, application-code: 1087ms)
+ GET / 200 in 167ms (next.js: 3ms, application-code: 164ms)
+ GET / 200 in 137ms (next.js: 7ms, application-code: 130ms)
+ GET / 200 in 317ms (next.js: 73ms, application-code: 243ms)
+ GET / 200 in 157ms (next.js: 3ms, application-code: 154ms)
+ GET / 200 in 215ms (next.js: 10ms, application-code: 205ms)
+ GET / 200 in 406ms (next.js: 9ms, application-code: 396ms)
+ GET / 200 in 420ms (next.js: 14ms, application-code: 406ms)
