@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,33 @@ export function CalendlyPopupButton({
 
     return () => mediaQuery.removeEventListener("change", syncDirectLink);
   }, []);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const { body, documentElement } = document;
+    const previousBodyOverflow = body.style.overflow;
+    const previousDocumentOverflow = documentElement.style.overflow;
+
+    body.style.overflow = "hidden";
+    documentElement.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      body.style.overflow = previousBodyOverflow;
+      documentElement.style.overflow = previousDocumentOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
 
   const handleOpen = () => {
     if (useDirectLink) {
@@ -61,70 +89,77 @@ export function CalendlyPopupButton({
         {label}
       </button>
 
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            className="fixed inset-0 z-[70] overflow-y-auto bg-slate-950/72 p-3 backdrop-blur-md sm:p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              role="dialog"
-              aria-modal="true"
-              aria-label="Book a strategy call with Zeebrag"
-              className="relative mx-auto my-4 flex min-h-[calc(100dvh-1.5rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-white shadow-[0_30px_120px_rgba(2,37,63,0.45)] sm:my-6 sm:min-h-[min(860px,calc(100dvh-3rem))] sm:rounded-[2rem]"
-              initial={{ opacity: 0, y: 24, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 24, scale: 0.98 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm transition hover:text-slate-950 sm:right-4 sm:top-4 sm:h-11 sm:w-11 sm:text-sm"
-                aria-label="Close booking dialog"
-              >
-                Close
-              </button>
+      {typeof document !== "undefined"
+        ? createPortal(
+            <AnimatePresence>
+              {open ? (
+                <motion.div
+                  className="fixed inset-0 z-[100] flex min-h-dvh items-start justify-center overflow-y-auto bg-slate-950/72 p-3 backdrop-blur-md sm:items-center sm:p-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setOpen(false)}
+                >
+                  <motion.div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Book a strategy call with Zeebrag"
+                    className="relative my-auto flex min-h-[min(56rem,calc(100dvh-1.5rem))] w-full max-w-6xl flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-white shadow-[0_30px_120px_rgba(2,37,63,0.45)] sm:min-h-[min(56rem,calc(100dvh-3rem))] sm:rounded-[2rem]"
+                    initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 24, scale: 0.98 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm transition hover:text-slate-950 sm:right-4 sm:top-4 sm:h-11 sm:w-11 sm:text-sm"
+                      aria-label="Close booking dialog"
+                    >
+                      Close
+                    </button>
 
-              <div className="grid flex-1 gap-0 lg:grid-cols-[0.38fr_0.62fr]">
-                <div className="bg-[linear-gradient(180deg,#02253f_0%,#034C8C_100%)] p-6 text-white sm:p-10">
-                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/65">
-                    Book Call
-                  </p>
-                  <h3 className="mt-4 text-2xl font-extrabold tracking-tight sm:text-3xl">
-                    Book your free 30-min growth audit
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-slate-200">
-                    Available for calls across IST, UAE, UK and US-friendly hours.
-                    Built in India. Working with brands globally.
-                  </p>
-                  <div className="mt-8 rounded-[1.5rem] border border-white/12 bg-white/10 p-5 backdrop-blur">
-                    <p className="text-sm font-semibold text-white">
-                      What we will cover
-                    </p>
-                    <ul className="mt-4 space-y-3 text-sm text-slate-200">
-                      <li>Brand positioning and trust gaps</li>
-                      <li>Content and acquisition opportunities</li>
-                      <li>Quick wins for conversion and pipeline</li>
-                    </ul>
-                  </div>
-                </div>
+                    <div className="grid flex-1 gap-0 lg:grid-cols-[minmax(18rem,0.38fr)_minmax(0,0.62fr)]">
+                      <div className="bg-[linear-gradient(180deg,#02253f_0%,#034C8C_100%)] p-6 text-white sm:p-10">
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/65">
+                          Book Call
+                        </p>
+                        <h3 className="mt-4 max-w-md text-2xl font-extrabold tracking-tight sm:text-3xl">
+                          Book your free 30-min growth audit
+                        </h3>
+                        <p className="mt-4 max-w-lg text-sm leading-7 text-slate-200">
+                          Available for calls across IST, UAE, UK and US-friendly hours.
+                          Built in India. Working with brands globally.
+                        </p>
+                        <div className="mt-8 rounded-[1.5rem] border border-white/12 bg-white/10 p-5 backdrop-blur">
+                          <p className="text-sm font-semibold text-white">
+                            What we will cover
+                          </p>
+                          <ul className="mt-4 space-y-3 text-sm text-slate-200">
+                            <li>Brand positioning and trust gaps</li>
+                            <li>Content and acquisition opportunities</li>
+                            <li>Quick wins for conversion and pipeline</li>
+                          </ul>
+                        </div>
+                      </div>
 
-                <div className="flex min-h-[65dvh] flex-col bg-white p-2 sm:min-h-0 sm:p-3">
-                  <iframe
-                    src={`${calendlyUrl}?hide_gdpr_banner=1&background_color=f8fbff&text_color=0f172a&primary_color=f26a1b`}
-                    title="Calendly booking for Zeebrag"
-                    className="min-h-[62dvh] w-full flex-1 rounded-[1.5rem] border-0 sm:min-h-0"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+                      <div className="flex min-h-[70dvh] flex-col bg-white p-2 sm:p-3 lg:min-h-0">
+                        <iframe
+                          src={`${calendlyUrl}?hide_gdpr_banner=1&background_color=f8fbff&text_color=0f172a&primary_color=f26a1b`}
+                          title="Calendly booking for Zeebrag"
+                          className="h-[70dvh] min-h-[32rem] w-full flex-1 rounded-[1.5rem] border-0 lg:h-full lg:min-h-0"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
