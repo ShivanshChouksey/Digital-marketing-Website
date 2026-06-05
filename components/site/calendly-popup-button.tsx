@@ -1,12 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const calendlyUrl =
   process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/zeebrag/30min";
+const calendlyWidgetScriptSrc = "https://assets.calendly.com/assets/external/widget.js";
+
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget: (options: {
+        parentElement: Element;
+        url: string;
+      }) => void;
+    };
+  }
+}
 
 type CalendlyPopupButtonProps = {
   label: string;
@@ -14,23 +26,32 @@ type CalendlyPopupButtonProps = {
   variant?: "primary" | "secondary" | "ghost" | "dark";
 };
 
+function buildCalendlyEmbedUrl() {
+  try {
+    const url = new URL(calendlyUrl);
+
+    url.searchParams.set("hide_gdpr_banner", "1");
+    url.searchParams.set("background_color", "f8fbff");
+    url.searchParams.set("text_color", "0f172a");
+    url.searchParams.set("primary_color", "f26a1b");
+
+    return url.toString();
+  } catch {
+    return calendlyUrl;
+  }
+}
+
 export function CalendlyPopupButton({
   label,
   className,
   variant = "primary",
 }: CalendlyPopupButtonProps) {
   const [open, setOpen] = useState(false);
-  const [useDirectLink, setUseDirectLink] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const syncDirectLink = () => setUseDirectLink(mediaQuery.matches);
-
-    syncDirectLink();
-    mediaQuery.addEventListener("change", syncDirectLink);
-
-    return () => mediaQuery.removeEventListener("change", syncDirectLink);
-  }, []);
+  const [widgetStatus, setWidgetStatus] = useState<"idle" | "loading" | "ready" | "error">(
+    "idle",
+  );
+  const widgetContainerRef = useRef<HTMLDivElement | null>(null);
+  const calendlyEmbedUrl = buildCalendlyEmbedUrl();
 
   useEffect(() => {
     if (!open) {
@@ -59,12 +80,123 @@ export function CalendlyPopupButton({
     };
   }, [open]);
 
-  const handleOpen = () => {
-    if (useDirectLink) {
-      window.location.assign(calendlyUrl);
+  useEffect(() => {
+    if (!open) {
       return;
     }
 
+    const widgetContainer = widgetContainerRef.current;
+    if (!widgetContainer) {
+      return;
+    }
+
+    let cancelled = false;
+    let readinessTimeout: ReturnType<typeof window.setTimeout> | undefined;
+
+    const ensureValidCalendlyUrl = async () => {
+      try {
+        const response = await fetch(
+          `/api/calendly/validate?url=${encodeURIComponent(calendlyUrl)}`,
+          {
+            cache: "no-store",
+          },
+        );
+
+        if (!response.ok) {
+          return false;
+        }
+
+        const result = (await response.json()) as { valid?: boolean };
+        return result.valid === true;
+      } catch {
+        return false;
+      }
+    };
+
+    const mountCalendlyWidget = () => {
+      if (cancelled || !window.Calendly) {
+        return;
+      }
+
+      widgetContainer.innerHTML = "";
+      setWidgetStatus("loading");
+
+      try {
+        window.Calendly.initInlineWidget({
+          parentElement: widgetContainer,
+          url: calendlyEmbedUrl,
+        });
+
+        readinessTimeout = window.setTimeout(() => {
+          if (cancelled) {
+            return;
+          }
+
+          const iframe = widgetContainer.querySelector("iframe");
+          setWidgetStatus(iframe ? "ready" : "error");
+        }, 2200);
+      } catch {
+        setWidgetStatus("error");
+      }
+    };
+
+    const handleScriptReady = () => {
+      mountCalendlyWidget();
+    };
+
+    const handleScriptError = () => {
+      if (!cancelled) {
+        setWidgetStatus("error");
+      }
+    };
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[data-calendly-widget="true"]',
+    );
+
+    void (async () => {
+      const isValid = await ensureValidCalendlyUrl();
+      if (cancelled) {
+        return;
+      }
+
+      if (!isValid) {
+        setWidgetStatus("error");
+        return;
+      }
+
+      if (window.Calendly) {
+        mountCalendlyWidget();
+      } else if (existingScript) {
+        existingScript.addEventListener("load", handleScriptReady);
+        existingScript.addEventListener("error", handleScriptError);
+      } else {
+        const script = document.createElement("script");
+        script.src = calendlyWidgetScriptSrc;
+        script.async = true;
+        script.dataset.calendlyWidget = "true";
+        script.addEventListener("load", handleScriptReady);
+        script.addEventListener("error", handleScriptError);
+        document.body.appendChild(script);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      if (readinessTimeout) {
+        window.clearTimeout(readinessTimeout);
+      }
+      if (existingScript) {
+        existingScript.removeEventListener("load", handleScriptReady);
+        existingScript.removeEventListener("error", handleScriptError);
+      }
+      widgetContainer.innerHTML = "";
+      setWidgetStatus("idle");
+    };
+  }, [calendlyEmbedUrl, open]);
+
+  const handleOpen = () => {
+    setWidgetStatus("loading");
     setOpen(true);
   };
 
@@ -144,13 +276,52 @@ export function CalendlyPopupButton({
                         </div>
                       </div>
 
-                      <div className="flex min-h-[70dvh] flex-col bg-white p-2 sm:p-3 lg:min-h-0">
-                        <iframe
-                          src={`${calendlyUrl}?hide_gdpr_banner=1&background_color=f8fbff&text_color=0f172a&primary_color=f26a1b`}
-                          title="Calendly booking for Zeebrag"
-                          className="h-[70dvh] min-h-[32rem] w-full flex-1 rounded-[1.5rem] border-0 lg:h-full lg:min-h-0"
-                          loading="lazy"
+                      <div className="relative flex min-h-[70dvh] flex-col bg-white p-2 sm:p-3 lg:min-h-0">
+                        <div
+                          ref={widgetContainerRef}
+                          className={cn(
+                            "min-h-[32rem] w-full flex-1 overflow-hidden rounded-[1.5rem] bg-slate-50",
+                            widgetStatus === "ready" ? "opacity-100" : "opacity-0",
+                          )}
+                          aria-label="Calendly booking for Zeebrag"
                         />
+
+                        {widgetStatus !== "ready" ? (
+                          <div className="absolute inset-x-2 bottom-2 top-2 flex flex-col items-center justify-center rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#f8fbff_0%,#eff6ff_100%)] px-6 py-10 text-center sm:inset-x-3 sm:bottom-3 sm:top-3">
+                            <div className="max-w-md">
+                              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--color-primary)]/70">
+                                {widgetStatus === "loading" ? "Loading scheduler" : "Booking page unavailable"}
+                              </p>
+                              <h4 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-950">
+                                {widgetStatus === "loading"
+                                  ? "Preparing your booking window"
+                                  : "We could not load the Calendly page"}
+                              </h4>
+                              <p className="mt-4 text-sm leading-7 text-slate-600">
+                                {widgetStatus === "loading"
+                                  ? "Calendly is loading inside the modal using their supported widget script."
+                                  : "The current Calendly link appears to be invalid or unavailable. You can still try opening the booking page directly, then update NEXT_PUBLIC_CALENDLY_URL with the correct scheduling link."}
+                              </p>
+                              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                                <a
+                                  href={calendlyUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(242,106,27,0.22)] transition hover:bg-[var(--color-accent-hover)]"
+                                >
+                                  Open booking page
+                                </a>
+                                <button
+                                  type="button"
+                                  onClick={() => setOpen(false)}
+                                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-[var(--color-secondary)] hover:text-[var(--color-primary)]"
+                                >
+                                  Close
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </motion.div>
