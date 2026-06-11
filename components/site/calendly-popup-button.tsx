@@ -91,7 +91,7 @@ export function CalendlyPopupButton({
     }
 
     let cancelled = false;
-    let readinessTimeout: ReturnType<typeof window.setTimeout> | undefined;
+    let readinessTimeout: number | undefined;
 
     const ensureValidCalendlyUrl = async () => {
       try {
