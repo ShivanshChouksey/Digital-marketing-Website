@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Footer } from "@/components/site/footer";
 import { MobileStickyCta } from "@/components/site/mobile-sticky-cta";
 import { Navbar } from "@/components/site/navbar";
+import { SkipToContent } from "@/components/ui/skip-to-content";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 import { siteConfig } from "@/lib/metadata";
 import "./globals.css";
@@ -11,6 +12,8 @@ import "./globals.css";
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
@@ -18,7 +21,10 @@ const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
+  title: {
+    default: siteConfig.title,
+    template: "%s",
+  },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
   verification: googleVerification
@@ -43,7 +49,7 @@ export const metadata: Metadata = {
         url: "/icon.png",
         width: 1200,
         height: 630,
-        alt: "Zeebrag growth-tech agency",
+        alt: "Zeebrag premium branding and growth studio in Bhopal, India",
       },
     ],
   },
@@ -52,6 +58,19 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: ["/icon.png"],
+    site: siteConfig.twitterHandle,
+    creator: siteConfig.twitterHandle,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
+  },
+  other: {
+    "og:locale": "en_IN",
+    "og:site_name": siteConfig.name,
   },
 };
 
@@ -62,7 +81,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={manrope.variable}>
+      <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+      </head>
       <body className="min-h-screen bg-[var(--color-background)] text-slate-950 antialiased">
+        <SkipToContent />
         {googleAnalyticsId ? (
           <>
             <Script
@@ -79,7 +105,7 @@ gtag('config', '${googleAnalyticsId}');`}
         ) : null}
 
         {metaPixelId ? (
-          <Script id="meta-pixel" strategy="afterInteractive">
+          <Script id="meta-pixel" strategy="lazyOnload">
             {`!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -94,7 +120,7 @@ fbq('track', 'PageView');`}
         ) : null}
 
         <Navbar />
-        <main>{children}</main>
+        <main id="main-content" role="main">{children}</main>
         <Footer />
         <WhatsAppFloat />
         <MobileStickyCta />

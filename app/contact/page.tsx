@@ -1,40 +1,60 @@
 import Link from "next/link";
 import { AuditForm } from "@/components/forms/audit-form";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { CalendlyPopupButton } from "@/components/site/calendly-popup-button";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/ui/reveal";
 import { Container } from "@/components/ui/container";
+import { JsonLd } from "@/components/seo/json-ld";
 import { createPageMetadata } from "@/lib/metadata";
+import { createOrganizationSchema, createLocalBusinessSchema } from "@/lib/seo-schema";
 
 export const metadata = createPageMetadata({
-  title: "Contact Zeebrag | Premium Branding and Growth Studio in India",
+  title: "Contact Zeebrag | Branding & Growth Studio in Bhopal, India",
   description:
-    "Contact Zeebrag to book a strategy call, request a growth audit, or discuss branding, content, websites, and performance growth.",
+    "Contact Zeebrag in Bhopal, India for SEO, Meta Ads, Google Ads, website development, and personal branding services. Book a strategy call or request a free growth audit.",
   path: "/contact",
+  keywords: [
+    "contact Zeebrag",
+    "digital marketing agency Bhopal",
+    "growth studio India contact",
+    "book strategy call",
+    "free growth audit",
+  ],
 });
 
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd data={createLocalBusinessSchema()} />
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Contact" },
+        ]}
+      />
+
       <PageHero
         eyebrow="Contact"
         title="Talk to Zeebrag about building a brand presence that feels sharper and converts better."
         description="For quick chats use WhatsApp. For serious business conversations, book a strategy call or send your details through the audit form."
       />
-      <section id="audit-form" className="scroll-mt-24 py-20">
+      <section id="audit-form" className="scroll-mt-24 py-20" aria-labelledby="contact-form-heading">
         <Container className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal>
             <div className="rounded-[2rem] bg-[#02253f] p-8 text-white shadow-[0_30px_80px_rgba(2,37,63,0.2)]">
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
                 Reach us
               </p>
-              <h2 className="mt-4 text-3xl font-bold tracking-tight">
+              <h2 id="contact-form-heading" className="mt-4 text-3xl font-bold tracking-tight">
                 Strategy conversations built around clarity, positioning, and growth outcomes.
               </h2>
               <div className="mt-8 grid gap-4 text-sm leading-7 text-slate-200">
                 <p>Email: contact.zeebrag@gmail.com, hello.zeebrag@gmail.com</p>
                 <p>Phone: +91 95225 55670</p>
-                <p>Location: Bhopal, India. Working with brands globally.</p>
+                <p>Location: Bhopal, Madhya Pradesh, India. Working with brands globally.</p>
                 <p>Available for calls across IST, UAE, UK and US-friendly hours.</p>
               </div>
               <div className="mt-8 flex flex-col gap-3">
@@ -55,11 +75,11 @@ export default function ContactPage() {
           </Reveal>
         </Container>
       </section>
-      <section className="bg-white py-20">
+      <section className="bg-white py-20" aria-labelledby="contact-info-heading">
         <Container className="grid gap-8 lg:grid-cols-3">
           <Reveal className="lg:col-span-2">
             <article className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+            <h2 id="contact-info-heading" className="text-3xl font-bold tracking-tight text-slate-950">
               Contact Zeebrag for branding and growth support across India and global markets
             </h2>
             <p className="mt-4 text-base leading-8 text-slate-700">

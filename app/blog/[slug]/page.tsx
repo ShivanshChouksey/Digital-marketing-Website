@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHero } from "@/components/site/page-hero";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { createPageMetadata } from "@/lib/metadata";
-import { blogs } from "@/lib/site-data";
+import { createOrganizationSchema, createBlogPostingSchema, createWebSiteSchema } from "@/lib/seo-schema";
+import { blogs, services } from "@/lib/site-data";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -30,6 +33,10 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     title: post.seoTitle,
     description: post.seoDescription,
     path: `/blog/${post.slug}`,
+    type: "article",
+    publishedTime: post.publishedAt,
+    authors: [post.author],
+    keywords: [post.category, post.title, "digital marketing India", "Zeebrag blog"],
   });
 }
 
@@ -41,8 +48,37 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const relatedServices = post.relatedServices
+    .map((s) => services.find((svc) => svc.slug === s))
+    .filter(Boolean);
+
+  const relatedPosts = post.relatedPosts
+    .map((p) => blogs.find((bp) => bp.slug === p))
+    .filter(Boolean);
+
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd data={createWebSiteSchema()} />
+      <JsonLd
+        data={createBlogPostingSchema({
+          title: post.title,
+          description: post.description,
+          slug: post.slug,
+          publishedAt: post.publishedAt,
+          author: post.author,
+          category: post.category,
+        })}
+      />
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog" },
+          { name: post.title },
+        ]}
+      />
+
       <PageHero
         eyebrow={post.category}
         title={post.title}
@@ -57,10 +93,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="mt-5 grid gap-4 text-sm text-slate-600">
               <p>Published: {post.publishedAt}</p>
               <p>Read time: {post.readTime}</p>
-              <p>Internal link target: service and case study pages</p>
+              <p>Author: {post.author}</p>
+              <p>Category: {post.category}</p>
             </div>
+            {relatedServices.length > 0 && (
+              <div className="mt-6">
+                <p className="text-sm font-semibold text-slate-700">Related services</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {relatedServices.map((s) => s && (
+                    <Link
+                      key={s.slug}
+                      href={`/services/${s.slug}`}
+                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-[var(--color-primary)] hover:bg-slate-100"
+                    >
+                      {s.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="mt-8">
-              <Button href="/services/seo-services">Explore SEO services</Button>
+              <Button href="/contact#audit-form">Get a free growth audit</Button>
             </div>
           </aside>
           <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
@@ -118,6 +171,32 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 if you want proof of how these ideas perform in practice.
               </p>
             </section>
+
+            {/* Related Posts */}
+            {relatedPosts.length > 0 && (
+              <section className="mt-10 border-t border-slate-200 pt-10">
+                <h2 className="text-2xl font-bold tracking-tight text-slate-950">
+                  Related articles
+                </h2>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                  {relatedPosts.map((rp) => rp && (
+                    <Link
+                      key={rp.slug}
+                      href={`/blog/${rp.slug}`}
+                      className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 transition hover:shadow-md"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                        {rp.category}
+                      </p>
+                      <h3 className="mt-2 text-lg font-bold tracking-tight text-slate-950">
+                        {rp.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-7 text-slate-600">{rp.description}</p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         </Container>
       </article>

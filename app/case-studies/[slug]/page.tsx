@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHero } from "@/components/site/page-hero";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { createPageMetadata } from "@/lib/metadata";
-import { caseStudies } from "@/lib/site-data";
+import { createOrganizationSchema, createCaseStudySchema } from "@/lib/seo-schema";
+import { caseStudies, services } from "@/lib/site-data";
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
@@ -30,6 +33,7 @@ export async function generateMetadata({ params }: CaseStudyPageProps) {
     title: study.seoTitle,
     description: study.seoDescription,
     path: `/case-studies/${study.slug}`,
+    keywords: [study.client, study.industry, "digital marketing case study India", "Zeebrag results"],
   });
 }
 
@@ -41,14 +45,38 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     notFound();
   }
 
+  const relatedServicesList = study.relatedServices
+    .map((s) => services.find((svc) => svc.slug === s))
+    .filter(Boolean);
+
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd
+        data={createCaseStudySchema({
+          title: `${study.client}: ${study.industry} Growth Case Study`,
+          description: study.strategy,
+          slug: study.slug,
+          client: study.client,
+          outcomes: study.outcomes,
+          industry: study.industry,
+        })}
+      />
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Case Studies", href: "/case-studies" },
+          { name: study.client },
+        ]}
+      />
+
       <PageHero
         eyebrow={study.industry}
         title={`${study.client}: measurable growth with a full-funnel Zeebrag system`}
         description={study.strategy}
       />
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="case-study-content">
         <Container className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <aside className="rounded-[2rem] bg-[#02253f] p-8 text-white shadow-[0_30px_80px_rgba(2,37,63,0.2)]">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
@@ -70,12 +98,29 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="mt-8">
               <Button href="/contact#audit-form">Start a similar project</Button>
             </div>
+            {relatedServicesList.length > 0 && (
+              <div className="mt-6">
+                <p className="text-sm font-semibold text-white/70">Services used</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {relatedServicesList.map((s) => s && (
+                    <Link
+                      key={s.slug}
+                      href={`/services/${s.slug}`}
+                      className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-white hover:bg-white/20"
+                    >
+                      {s.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </aside>
           <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <h2 id="case-study-content" className="sr-only">Case study details</h2>
             <section>
-              <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+              <h3 className="text-3xl font-bold tracking-tight text-slate-950">
                 Why this case study matters
-              </h2>
+              </h3>
               <p className="mt-4 text-base leading-8 text-slate-700">
                 Growth case studies matter because they show what changed in the real world, not
                 just what looked good in a proposal. For businesses in Bhopal and across India,
@@ -91,22 +136,22 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 apply to their market, their offer, or their current funnel constraints.
               </p>
             </section>
-            <section>
-              <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+            <section className="mt-10">
+              <h3 className="text-3xl font-bold tracking-tight text-slate-950">
                 Client problem
-              </h2>
+              </h3>
               <p className="mt-4 text-base leading-8 text-slate-700">{study.problem}</p>
             </section>
             <section className="mt-10">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+              <h3 className="text-3xl font-bold tracking-tight text-slate-950">
                 Zeebrag strategy
-              </h2>
+              </h3>
               <p className="mt-4 text-base leading-8 text-slate-700">{study.strategy}</p>
             </section>
             <section className="mt-10">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+              <h3 className="text-3xl font-bold tracking-tight text-slate-950">
                 Execution
-              </h2>
+              </h3>
               <ul className="mt-4 grid gap-4">
                 {study.execution.map((item) => (
                   <li
@@ -118,10 +163,22 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 ))}
               </ul>
             </section>
+            {study.testimonial && (
+              <section className="mt-10 rounded-[1.75rem] bg-slate-50 p-6">
+                <blockquote className="text-base italic leading-8 text-slate-700">
+                  &ldquo;{study.testimonial}&rdquo;
+                </blockquote>
+                {study.testimonialAuthor && (
+                  <p className="mt-4 text-sm font-semibold text-slate-900">
+                    &mdash; {study.testimonialAuthor}
+                  </p>
+                )}
+              </section>
+            )}
             <section className="mt-10">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+              <h3 className="text-3xl font-bold tracking-tight text-slate-950">
                 What brands can learn from this project
-              </h2>
+              </h3>
               <p className="mt-4 text-base leading-8 text-slate-700">
                 The biggest lesson from this case study is that results usually improve when the
                 full path from discovery to conversion is treated as one system. Better campaigns

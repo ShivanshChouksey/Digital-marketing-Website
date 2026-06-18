@@ -1,28 +1,49 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHero } from "@/components/site/page-hero";
 import { Container } from "@/components/ui/container";
 import { createPageMetadata } from "@/lib/metadata";
-import { blogs } from "@/lib/site-data";
+import { createOrganizationSchema, createWebSiteSchema } from "@/lib/seo-schema";
+import { blogs, blogCategories, blogResourceContent } from "@/lib/site-data";
 
 export const metadata = createPageMetadata({
-  title: "Digital Marketing Blog in Bhopal, India | Zeebrag",
+  title: "Digital Marketing Blog | SEO, Ads & Branding Tips | Zeebrag",
   description:
-    "Read Zeebrag blog posts on SEO, branding, paid growth, and website performance for businesses in Bhopal and across India.",
+    "Read Zeebrag's digital marketing blog for expert insights on SEO, Meta Ads, Google Ads, personal branding, website development, and growth strategy for Indian businesses.",
   path: "/blog",
+  keywords: [
+    "digital marketing blog India",
+    "SEO tips Bhopal",
+    "growth marketing blog",
+    "Meta Ads guide",
+    "personal branding blog",
+    "Zeebrag insights",
+  ],
 });
 
 export default function BlogPage() {
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd data={createWebSiteSchema()} />
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog" },
+        ]}
+      />
+
       <PageHero
         eyebrow="Blog"
         title="A scalable SEO-ready content hub for long-term keyword growth."
         description="Use the Zeebrag blog to attract organic traffic, build authority, and educate future buyers."
       />
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="blog-heading">
         <Container>
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+            <h2 id="blog-heading" className="text-3xl font-bold tracking-tight text-slate-950">
               Practical digital growth insights for founders and marketers
             </h2>
             <p className="mt-4 text-base leading-8 text-slate-700">
@@ -47,7 +68,24 @@ export default function BlogPage() {
               when you are ready to apply these ideas to your business.
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
+
+          {/* Blog Categories */}
+          <div className="mt-10">
+            <h3 className="text-2xl font-bold tracking-tight text-slate-950">Browse by category</h3>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {blogCategories.map((cat) => (
+                <Link
+                  key={cat.slug}
+                  href={`/blog/category/${cat.slug}`}
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                >
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
             {blogs.map((post) => (
               <article
                 key={post.slug}
@@ -68,7 +106,7 @@ export default function BlogPage() {
                   href={`/blog/${post.slug}`}
                   className="mt-6 inline-flex text-sm font-semibold text-[var(--color-primary)]"
                 >
-                  Read article
+                  Read article &rarr;
                 </Link>
               </article>
             ))}

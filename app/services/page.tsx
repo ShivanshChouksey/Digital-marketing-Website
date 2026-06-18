@@ -1,28 +1,50 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHero } from "@/components/site/page-hero";
 import { Container } from "@/components/ui/container";
 import { createPageMetadata } from "@/lib/metadata";
+import { createOrganizationSchema, createWebSiteSchema } from "@/lib/seo-schema";
 import { services } from "@/lib/site-data";
 
 export const metadata = createPageMetadata({
-  title: "Growth Services for Modern Brands in India | Zeebrag",
+  title: "Digital Marketing Services in India | SEO, Ads & Branding | Zeebrag",
   description:
-    "Explore Zeebrag services for SEO, paid growth, personal branding, and premium website development across India and global markets.",
+    "Explore Zeebrag's digital marketing services: SEO, Meta Ads, Google Ads, website development, personal branding, and social media management for startups in Bhopal and India.",
   path: "/services",
+  keywords: [
+    "digital marketing services India",
+    "SEO services Bhopal",
+    "Google Ads management India",
+    "Meta Ads agency",
+    "website development company",
+    "personal branding services",
+    "social media management India",
+  ],
 });
 
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd data={createWebSiteSchema()} />
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Services" },
+        ]}
+      />
+
       <PageHero
         eyebrow="Services"
         title="Growth services designed for modern brands that want sharper positioning and measurable momentum."
         description="Zeebrag combines strategy, creative execution, technology, and optimization to build premium brand and demand systems."
       />
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="services-heading">
         <Container>
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+            <h2 id="services-heading" className="text-3xl font-bold tracking-tight text-slate-950">
               Service lines built for commercial growth, not random activity
             </h2>
             <p className="mt-4 text-base leading-8 text-slate-700">
@@ -67,7 +89,7 @@ export default function ServicesPage() {
                   href={`/services/${service.slug}`}
                   className="mt-6 inline-flex text-sm font-semibold text-[var(--color-primary)]"
                 >
-                  View service page
+                  View {service.name} details &rarr;
                 </Link>
               </article>
             ))}

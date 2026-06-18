@@ -1,28 +1,48 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHero } from "@/components/site/page-hero";
 import { Container } from "@/components/ui/container";
 import { createPageMetadata } from "@/lib/metadata";
-import { caseStudies } from "@/lib/site-data";
+import { createOrganizationSchema, createWebSiteSchema } from "@/lib/seo-schema";
+import { caseStudies, caseStudyHubContent } from "@/lib/site-data";
 
 export const metadata = createPageMetadata({
-  title: "Digital Marketing Case Studies in Bhopal, India | Zeebrag",
+  title: "Digital Marketing Case Studies | Zeebrag Bhopal, India",
   description:
-    "Review Zeebrag case studies on SEO, demand generation, website conversion, and paid growth for brands in Bhopal and India.",
+    "View Zeebrag case studies on SEO, demand generation, website conversion, and paid growth for brands in Bhopal and India. See measurable results from real client work.",
   path: "/case-studies",
+  keywords: [
+    "digital marketing case studies India",
+    "SEO case study Bhopal",
+    "growth marketing results",
+    "Zeebrag client work",
+    "paid media case study",
+  ],
 });
 
 export default function CaseStudiesPage() {
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd data={createWebSiteSchema()} />
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Case Studies" },
+        ]}
+      />
+
       <PageHero
         eyebrow="Case studies"
         title="Results-first stories built to demonstrate authority, trust, and business impact."
         description="Use these executive-style case studies to show how strategy and execution turn into measurable growth."
       />
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="case-studies-heading">
         <Container>
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+            <h2 id="case-studies-heading" className="text-3xl font-bold tracking-tight text-slate-950">
               Proof of execution matters more than generic claims
             </h2>
             <p className="mt-4 text-base leading-8 text-slate-700">
@@ -73,7 +93,7 @@ export default function CaseStudiesPage() {
                   href={`/case-studies/${study.slug}`}
                   className="mt-6 inline-flex text-sm font-semibold text-[var(--color-primary)]"
                 >
-                  Read full case study
+                  Read full case study &rarr;
                 </Link>
               </article>
             ))}

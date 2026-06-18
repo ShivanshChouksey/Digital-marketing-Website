@@ -22,11 +22,16 @@ export type BlogPost = {
   title: string;
   description: string;
   category: string;
+  categorySlug: string;
   readTime: string;
   publishedAt: string;
   seoTitle: string;
   seoDescription: string;
+  author: string;
   sections: Array<{ heading: string; content: string }>;
+  faqs: FaqItem[];
+  relatedServices: string[];
+  relatedPosts: string[];
 };
 
 export type CaseStudy = {
@@ -37,6 +42,9 @@ export type CaseStudy = {
   strategy: string;
   execution: string[];
   outcomes: Array<{ label: string; value: string }>;
+  testimonial: string;
+  testimonialAuthor: string;
+  relatedServices: string[];
   seoTitle: string;
   seoDescription: string;
 };
@@ -51,12 +59,129 @@ export type FaqItem = {
   answer: string;
 };
 
+export type ServiceSeoContent = {
+  overview: string[];
+  benefits: string[];
+  useCases: SeoContentBlock[];
+  whyItMatters: SeoContentBlock[];
+  faqs: FaqItem[];
+  relatedServices: string[];
+  relatedCaseStudies: string[];
+};
+
+export type BlogCategory = {
+  slug: string;
+  name: string;
+  description: string;
+};
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  linkedIn?: string;
+};
+
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Case Studies", href: "/case-studies" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact#audit-form" },
+];
+
+export const homepageFaqs: FaqItem[] = [
+  {
+    question: "How does Zeebrag work?",
+    answer:
+      "We begin with clarity: positioning, audience, funnel friction, and content gaps. From there we build the right mix of strategy, creative systems, website experience, and growth execution so the brand feels sharper and converts better.",
+  },
+  {
+    question: "Do you work internationally?",
+    answer:
+      "Yes. Zeebrag is built in Bhopal, India and works remotely with brands across India and global markets. We structure communication around shared planning, fast feedback loops, and calls across IST, UAE, UK and US-friendly hours.",
+  },
+  {
+    question: "Do you offer personal branding?",
+    answer:
+      "Yes. Founder positioning, authority-building content, and narrative clarity are a core part of the Zeebrag approach, especially for brands where trust is closely tied to the people behind the business.",
+  },
+  {
+    question: "How long does growth take?",
+    answer:
+      "Some wins show quickly through sharper messaging, cleaner offers, and better conversion paths. Compounding channels like SEO, content systems, and brand authority take longer, but they create stronger momentum over time.",
+  },
+  {
+    question: "What industries do you work with?",
+    answer:
+      "We primarily work with startups, founder-led brands, service businesses, SaaS, D2C, solar, and modern companies that care about positioning, attention quality, and measurable growth.",
+  },
+  {
+    question: "What does a growth audit include?",
+    answer:
+      "Our audit reviews your positioning, website conversion path, content consistency, search visibility, paid media efficiency, and founder brand presence. You receive practical priorities rather than a generic checklist.",
+  },
+  {
+    question: "How much do Zeebrag services cost?",
+    answer:
+      "Pricing depends on scope, channels, and execution depth. After an initial audit, we recommend a focused starting plan with clear deliverables, timelines, and expected outcomes for your stage and market.",
+  },
+];
+
+export const founderProfile = {
+  name: "Zeebrag Leadership Team",
+  role: "Founders & Growth Strategists",
+  bio: "Zeebrag was founded by growth strategists and creative operators based in Bhopal, India. The team combines branding, performance marketing, website development, and founder-led content systems to help modern businesses build trust and convert attention into revenue.",
+  experience: "50+ brands served across India and global markets",
+  linkedIn: "https://www.linkedin.com/company/zeebrag/",
+};
+
+export const teamMembers: TeamMember[] = [
+  {
+    name: "Zeebrag Strategy Team",
+    role: "Brand & Growth Strategy",
+    bio: "Leads positioning workshops, funnel audits, and integrated growth roadmaps for startups and service brands in Bhopal and across India.",
+    linkedIn: "https://www.linkedin.com/company/zeebrag/",
+  },
+  {
+    name: "Zeebrag Creative Team",
+    role: "Content & Creative Systems",
+    bio: "Builds scroll-stopping content, ad creatives, and brand narratives designed for modern platforms and conversion-focused journeys.",
+  },
+  {
+    name: "Zeebrag Technology Team",
+    role: "Web Development & Analytics",
+    bio: "Develops fast, SEO-ready Next.js websites with performance optimization, tracking, and scalable architecture for growth brands.",
+  },
+];
+
+export const blogCategories: BlogCategory[] = [
+  {
+    slug: "seo",
+    name: "SEO",
+    description: "Search visibility, technical SEO, and content strategy for startups in India.",
+  },
+  {
+    slug: "paid-media",
+    name: "Paid Media",
+    description: "Meta Ads, Google Ads, and performance marketing best practices.",
+  },
+  {
+    slug: "personal-branding",
+    name: "Personal Branding",
+    description: "Founder authority, LinkedIn growth, and trust-building content.",
+  },
+  {
+    slug: "website-development",
+    name: "Website Development",
+    description: "Conversion-focused websites, landing pages, and Core Web Vitals.",
+  },
+  {
+    slug: "digital-marketing",
+    name: "Digital Marketing",
+    description: "Growth strategy, social media, and integrated marketing tips.",
+  },
 ];
 
 export const trustLogos = [
@@ -224,7 +349,32 @@ export const services: Service[] = [
     process: ["Clarify founder angle", "Build messaging system", "Create content engine", "Compound authority over time"],
     seoTitle: "Personal Branding Services for Founders | Zeebrag",
     seoDescription:
-      "Personal branding services for founders and executives who want stronger authority, trust, and inbound opportunities.",
+      "Personal branding for founders in India. Build authority, trust, and inbound leads with Zeebrag's founder-led content systems.",
+  },
+  {
+    slug: "social-media-management",
+    name: "Social Media Management",
+    eyebrow: "Platform-native growth",
+    summary: "Build consistent social presence with content systems that earn attention and drive qualified inquiries.",
+    description:
+      "Zeebrag manages social media with strategy-first content planning, platform-native creative, and performance tracking tied to business outcomes.",
+    headline: "Social media management that turns attention into trust and pipeline",
+    outcomes: [
+      "Consistent brand presence across Instagram, LinkedIn, and Meta",
+      "Content calendars aligned to business goals",
+      "Stronger engagement and profile discovery",
+      "Social content that supports ads, SEO, and founder branding",
+    ],
+    deliverables: [
+      "Platform strategy and content pillars",
+      "Monthly content calendar and creative direction",
+      "Post design, copy, and publishing workflow",
+      "Performance reporting and optimization recommendations",
+    ],
+    process: ["Audit current presence", "Define content pillars", "Publish and engage consistently", "Optimize based on performance"],
+    seoTitle: "Social Media Management Services in India | Zeebrag",
+    seoDescription:
+      "Social media management for startups and brands in Bhopal and India. Build consistent content that drives trust, engagement, and leads.",
   },
 ];
 
@@ -235,11 +385,13 @@ export const blogs: BlogPost[] = [
     description:
       "A practical framework for startups in India to align brand, paid acquisition, content, and conversion systems.",
     category: "Growth Strategy",
+    categorySlug: "digital-marketing",
     readTime: "6 min read",
     publishedAt: "2026-03-18",
     seoTitle: "Startup Growth Marketing in India | Zeebrag Blog",
     seoDescription:
       "Learn how Indian startups can combine branding, paid media, SEO, and website optimization to create reliable growth.",
+    author: "Zeebrag Strategy Team",
     sections: [
       {
         heading: "Growth gets expensive without positioning",
@@ -257,6 +409,25 @@ export const blogs: BlogPost[] = [
           "A high-performing website improves trust, reduces friction, and converts traffic faster, which is why it should be treated as a core growth asset rather than a brochure. The homepage, service pages, forms, and proof sections all influence whether traffic becomes qualified pipeline. If a visitor from Bhopal or any other market reaches your site and cannot quickly understand the value you provide, even the best ad campaign will struggle to produce strong outcomes. Technical performance matters too. Faster pages, clearer structure, and stronger internal links help both search engines and buyers move through the site with less resistance.",
       },
     ],
+    faqs: [
+      {
+        question: "How long does it take for a startup to see growth results?",
+        answer:
+          "Early improvements from positioning, messaging, and conversion fixes often appear within weeks. Compounding growth from SEO and content systems typically builds over 3-6 months.",
+      },
+      {
+        question: "What is the most cost-effective growth channel for Indian startups?",
+        answer:
+          "SEO and founder-led content often provide the best long-term ROI. However, combining organic with targeted paid campaigns on Meta or Google can accelerate early-stage results.",
+      },
+      {
+        question: "Should startups invest in branding early?",
+        answer:
+          "Yes. Clear positioning and consistent messaging improve conversion across every channel. Even minimal branding investment helps startups stand out in competitive Indian markets.",
+      },
+    ],
+    relatedServices: ["seo-services", "website-development", "personal-branding"],
+    relatedPosts: ["founder-branding-b2b-trust", "landing-page-conversion-playbook"],
   },
   {
     slug: "founder-branding-b2b-trust",
@@ -264,11 +435,13 @@ export const blogs: BlogPost[] = [
     description:
       "Founders who show up consistently create trust faster, shorten sales cycles, and make their companies easier to remember.",
     category: "Personal Branding",
+    categorySlug: "personal-branding",
     readTime: "5 min read",
     publishedAt: "2026-02-26",
     seoTitle: "Founder Branding for B2B Growth | Zeebrag Blog",
     seoDescription:
       "Explore how founder branding improves trust, authority, and inbound opportunities for B2B businesses and startups.",
+    author: "Zeebrag Strategy Team",
     sections: [
       {
         heading: "People trust people before they trust brands",
@@ -286,6 +459,20 @@ export const blogs: BlogPost[] = [
           "The strongest founder brands use repeatable systems for ideation, capture, distribution, and measurement because authority compounds through repetition and refinement. A systematic process makes it easier to turn one strong idea into multiple useful assets: a LinkedIn post, a website insight section, a short-form clip, or a sales enablement snippet. That is where personal branding becomes commercially valuable. Instead of relying on motivation or occasional inspiration, founders can build visibility that supports actual business development. In competitive India-focused markets, this often becomes a major trust advantage over quieter competitors.",
       },
     ],
+    faqs: [
+      {
+        question: "How often should founders post on LinkedIn?",
+        answer:
+          "Consistency matters more than frequency. Posting 2-3 times per week with focused, insight-driven content typically builds better authority than daily posting without a clear narrative.",
+      },
+      {
+        question: "Can personal branding work for technical founders?",
+        answer:
+          "Yes. Technical founders can build authority by sharing product insights, industry analysis, and problem-solving approaches that demonstrate expertise without requiring a public-facing personality.",
+      },
+    ],
+    relatedServices: ["personal-branding", "social-media-management"],
+    relatedPosts: ["startup-growth-marketing-india"],
   },
   {
     slug: "landing-page-conversion-playbook",
@@ -293,11 +480,13 @@ export const blogs: BlogPost[] = [
     description:
       "Use this framework to improve trust, message clarity, and conversion rates on service landing pages.",
     category: "Website Development",
+    categorySlug: "website-development",
     readTime: "7 min read",
     publishedAt: "2026-01-15",
     seoTitle: "Landing Page Conversion Playbook | Zeebrag Blog",
     seoDescription:
       "A conversion-focused landing page framework for agencies, startups, and service businesses looking to improve lead generation.",
+    author: "Zeebrag Technology Team",
     sections: [
       {
         heading: "Above-the-fold clarity wins attention",
@@ -315,6 +504,20 @@ export const blogs: BlogPost[] = [
           "What do you do, why trust you, what results can buyers expect, how does it work, and what should they do next? Great landing pages answer those questions in sequence so the user never has to guess. When sections are scattered or repetitive, users feel friction even if the design looks modern. Conversion-focused pages guide attention step by step using copy, proof, and clear CTAs. That structure also helps SEO because a well-organized page is easier for search engines to understand and easier for visitors to navigate with confidence.",
       },
     ],
+    faqs: [
+      {
+        question: "What is the most important element of a landing page?",
+        answer:
+          "Above-the-fold clarity is the most critical element. Visitors decide within seconds whether to stay or leave, so your headline and first CTA must communicate value immediately.",
+      },
+      {
+        question: "How long should a landing page be?",
+        answer:
+          "Long enough to answer all buyer objections, short enough to maintain attention. For service businesses, 800-1500 words with clear sections, proof points, and a single CTA typically performs best.",
+      },
+    ],
+    relatedServices: ["website-development", "seo-services"],
+    relatedPosts: ["startup-growth-marketing-india"],
   },
 ];
 
@@ -322,237 +525,35 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "saas-demand-generation",
     client: "Vaibhav Solar Solution",
-    industry: "B2B SaaS",
+    industry: "Solar & Renewable Energy",
     problem:
-      "The company had strong product-market fit but low inbound volume, inconsistent paid results, and a weak founder-led content presence.",
+      "The company had strong product-market fit in the solar category but low inbound volume, inconsistent paid results, and a weak founder-led content presence that failed to build trust with commercial buyers.",
     strategy:
-      "Zeebrag combined a new website narrative, founder branding, content repurposing, and paid demand capture across Meta and Google.",
+      "Zeebrag combined a new website narrative, founder branding on LinkedIn, content repurposing for social media, and paid demand capture across Meta and Google to create a full-funnel growth system.",
     execution: [
-      "Rebuilt the homepage and core service pages around clear ICP messaging",
-      "Launched founder-led LinkedIn content and short-form insight clips",
-      "Created paid search campaigns for high-intent demo keywords",
-      "Installed reporting dashboards to track lead quality and source mix",
+      "Rebuilt the homepage and core service pages around clear ICP messaging for commercial solar buyers",
+      "Launched founder-led LinkedIn content and short-form insight clips for social proof",
+      "Created paid search campaigns for high-intent solar installation and commercial keywords",
+      "Built Meta Ads campaigns with creative testing for lead generation in target regions",
+      "Installed reporting dashboards to track lead quality, source mix, and conversion rates",
+      "Improved internal linking between service pages, case studies, and contact conversion paths",
     ],
     outcomes: [
       { label: "Qualified leads in 30 days", value: "126" },
       { label: "Paid ROAS", value: "3.2x" },
       { label: "Organic traffic growth", value: "184%" },
     ],
-    seoTitle: "B2B SaaS Demand Generation Case Study | Zeebrag",
+    testimonial:
+      "Zeebrag helped us turn scattered marketing effort into a system we could actually measure. The website, content, and paid campaigns finally worked together.",
+    testimonialAuthor: "Leadership Team, Vaibhav Solar Solution",
+    relatedServices: ["seo-services", "meta-ads", "google-ads", "website-development", "personal-branding"],
+    seoTitle: "Solar Demand Generation Case Study | Zeebrag",
     seoDescription:
-      "See how Zeebrag helped a B2B SaaS brand grow leads, ROAS, and organic traffic with a full-funnel growth system.",
+      "See how Zeebrag helped a solar brand in India grow leads, ROAS, and organic traffic with SEO, paid media, and founder branding.",
   },
 ];
 
-export const serviceSeoContent: Record<
-  string,
-  {
-    overview: string[];
-    whyItMatters: SeoContentBlock[];
-    faqs: FaqItem[];
-  }
-> = {
-  "seo-services": {
-    overview: [
-      "Businesses in Bhopal and across India need more than traffic charts to justify SEO investment. They need an organic search system that brings the right visitors, supports sales conversations, and turns informational demand into commercial intent. Zeebrag approaches SEO as a growth engine that aligns technical health, service landing pages, local relevance, and authority content so each improvement contributes to leads instead of vanity metrics.",
-      "Our SEO service starts by understanding how your customers search, compare options, and evaluate trust. That means mapping high-intent keywords, improving page structure, clarifying service messaging, and fixing technical issues that slow down crawling or weaken Core Web Vitals. For companies targeting Bhopal, India, or national demand, the goal is to make search visibility more predictable and much easier to convert into inquiries.",
-      "Because SEO compounds over time, the most valuable gains usually come from consistency. Zeebrag helps brands publish stronger service content, create internal links that guide crawlers and users, and improve page experience so search traffic lands on pages built to convert. The outcome is a more resilient acquisition channel that continues supporting growth even when paid media costs rise.",
-    ],
-    whyItMatters: [
-      {
-        heading: "Why SEO still matters for growth brands",
-        paragraphs: [
-          "Search remains one of the strongest channels for capturing existing demand because people use it when they are actively researching a solution. If your service pages do not rank, competitors often win those buyers before your team even gets the chance to pitch. For a Bhopal business or an India-focused brand, a well-built SEO foundation means being visible when prospects are already looking for answers, pricing, capabilities, and proof.",
-          "Good SEO also improves supporting business systems. Clear page hierarchy helps users understand your offer faster, better internal linking improves discovery across the site, and stronger content gives your team assets they can share in sales and remarketing. This is why Zeebrag treats SEO as a business infrastructure decision rather than just an editorial tactic.",
-        ],
-      },
-      {
-        heading: "How Zeebrag improves conversion quality",
-        paragraphs: [
-          "Ranking alone is not enough if visitors land on generic pages that do not explain value clearly. Zeebrag pairs keyword targeting with positioning and conversion strategy so users move from search query to confidence more quickly. That includes refining copy, building trust sections, improving page speed, and structuring content around commercial questions that matter to buyers in India.",
-          "When the traffic is more relevant and the landing experience is more focused, lead quality improves. That is often what turns SEO from a long-term branding activity into a measurable pipeline source that supports revenue conversations.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: "How long does SEO take to show results?",
-        answer:
-          "Technical fixes and page improvements can create early movement within weeks, while stronger ranking gains usually build over several months. Zeebrag focuses on short-term wins and long-term authority together.",
-      },
-      {
-        question: "Can SEO help local and national visibility at the same time?",
-        answer:
-          "Yes. We can build local relevance for Bhopal and broader India-focused service visibility in parallel when your offer supports both search intents.",
-      },
-      {
-        question: "Do you only create blog content?",
-        answer:
-          "No. Our SEO work includes service pages, site architecture, internal linking, technical improvements, and content planning tied to revenue intent.",
-      },
-    ],
-  },
-  "meta-ads": {
-    overview: [
-      "Meta Ads can scale quickly, but only when the offer, creative, and landing experience work together. Many businesses in Bhopal and across India run campaigns that generate clicks but not qualified opportunities because their funnel is too generic or the messaging is disconnected from what users actually care about. Zeebrag fixes that by building campaigns around clear audience angles, creative testing, and conversion-focused pages.",
-      "Our Meta Ads service covers the entire acquisition journey, from reviewing the offer and audience structure to improving ad hooks, testing different creative concepts, and tightening conversion tracking. This matters because paid social performance often improves when creative iteration becomes systematic instead of reactive. The faster you learn what messaging works, the easier it becomes to scale without wasting budget.",
-      "For brands that want a dependable growth partner in India, Zeebrag adds strategy and reporting discipline to Meta Ads. We focus on lead quality, cost efficiency, and funnel visibility so your campaigns support revenue goals instead of becoming a channel that is hard to trust.",
-    ],
-    whyItMatters: [
-      {
-        heading: "Why creative testing changes campaign economics",
-        paragraphs: [
-          "Meta rewards brands that keep learning from fresh creative inputs. If your ads repeat the same angle for too long, costs often rise while click-through and conversion rates soften. Zeebrag creates testing systems that compare hooks, visuals, proof points, and offers, which helps identify what actually moves buyers in your market.",
-          "That discipline matters for Bhopal service brands and India-first startups alike because competition for attention is high. Better creative means more efficient acquisition, clearer performance decisions, and stronger scale potential.",
-        ],
-      },
-      {
-        heading: "How Zeebrag connects paid social to pipeline",
-        paragraphs: [
-          "Paid social works best when it is integrated with landing pages, lead capture, remarketing, and follow-up. We improve the full path from scroll to inquiry so each campaign has a stronger chance of converting. By aligning audience segments with tailored page messaging, Zeebrag helps brands see where lead quality improves, not just where volume spikes.",
-          "That integrated approach is especially important when management wants proof. Cleaner reporting and better funnel structure make it easier to understand ROI and scale with confidence.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: "Do you create the ad creatives too?",
-        answer:
-          "Yes. Zeebrag helps shape the creative direction, hooks, formats, and testing structure needed to improve Meta Ads performance.",
-      },
-      {
-        question: "Can Meta Ads work for service businesses in Bhopal?",
-        answer:
-          "Yes. With the right targeting, offer, and landing page, Meta Ads can generate demand and nurture qualified leads for Bhopal and broader India campaigns.",
-      },
-      {
-        question: "What metrics matter most?",
-        answer:
-          "We track conversion quality, cost per lead, ROAS where relevant, funnel drop-off, and the creative patterns that support better performance over time.",
-      },
-    ],
-  },
-  "google-ads": {
-    overview: [
-      "Google Ads is one of the most direct ways to capture high-intent demand because users are already searching for a solution. For businesses in Bhopal and across India, that means the opportunity to appear in front of prospects when they are comparing agencies, requesting demos, or looking for a provider they can trust. Zeebrag uses Google Ads to translate this demand into clearer lead flow and better cost efficiency.",
-      "Our approach combines search intent mapping, keyword architecture, conversion tracking, landing page alignment, and ongoing optimization. Instead of treating campaigns as isolated ad groups, we build them around commercial goals and buyer questions. That structure makes it easier to improve relevance, reduce wasted spend, and understand where real inquiries are coming from.",
-      "Because intent-driven acquisition can become expensive without discipline, Zeebrag focuses on the details that protect performance. Negative keyword management, message consistency, page speed, and reporting all contribute to stronger outcomes. The result is a Google Ads system that is easier to scale and easier to trust.",
-    ],
-    whyItMatters: [
-      {
-        heading: "Intent makes Google Ads powerful",
-        paragraphs: [
-          "Search traffic converts differently from interruption-based channels because users already have context and intent. They are asking for a category, a solution, or a provider. When campaigns match that intent with the right copy and landing page, conversion quality improves quickly.",
-          "That is why Zeebrag invests heavily in keyword research and message alignment. Businesses targeting Bhopal or all-India demand need campaigns that understand both local commercial phrases and broader category intent.",
-        ],
-      },
-      {
-        heading: "Landing pages and ads must reinforce each other",
-        paragraphs: [
-          "A great keyword and a strong ad still underperform if the landing page creates friction. We review the full path from search query to form submission so users see consistent claims, proof, and next steps. This raises trust and lowers the chance of paid clicks bouncing.",
-          "When that alignment is in place, budgets become more productive and scaling decisions become more informed.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: "How do you reduce wasted spend?",
-        answer:
-          "We improve targeting through search term analysis, negative keywords, tighter ad grouping, and landing pages that match the searcher's actual need.",
-      },
-      {
-        question: "Do you support Bhopal-focused campaigns?",
-        answer:
-          "Yes. Zeebrag can structure Google Ads for Bhopal-specific lead generation, wider India demand capture, or both depending on your growth goals.",
-      },
-      {
-        question: "Can you help with landing page conversion too?",
-        answer:
-          "Yes. We review and recommend landing page improvements so paid clicks have a stronger chance of turning into inquiries or booked calls.",
-      },
-    ],
-  },
-  "website-development": {
-    overview: [
-      "A website is often the first serious trust test a modern brand faces. For startups in Bhopal and growing businesses across India, a slow or outdated site can weaken credibility before a sales conversation even begins. Zeebrag builds websites that look premium, load quickly, support SEO, and move visitors toward a clear next step.",
-      "Our website development process combines messaging strategy, user experience design, technical performance, and scalable Next.js implementation. The goal is not just to launch pages that look modern. It is to create a conversion asset that supports paid campaigns, organic search, founder authority, and day-to-day business development.",
-      "Because websites influence every other channel, the best results usually come when design and growth thinking are integrated. Zeebrag helps businesses present a sharper market position, improve mobile usability, and connect forms, CTAs, and reporting in a way that supports measurable growth.",
-    ],
-    whyItMatters: [
-      {
-        heading: "Why premium websites convert better",
-        paragraphs: [
-          "Visitors make fast judgments about professionalism, trust, and fit. A premium interface with clear copy, strong structure, and faster load times gives your business a much better chance of keeping that attention. For service brands in Bhopal and India, this directly influences inquiry rates.",
-          "A site also needs to support multiple intents. Some visitors are ready to contact you, while others need proof, examples, or service detail first. Zeebrag designs for both paths so the website works as a real business tool, not a static brochure.",
-        ],
-      },
-      {
-        heading: "Technical quality supports marketing efficiency",
-        paragraphs: [
-          "Website performance affects SEO, paid conversion rates, and user trust at the same time. Cleaner code, strong metadata, optimized images, and clear page hierarchy make acquisition channels more effective overall. This is why development quality matters beyond design aesthetics.",
-          "Zeebrag uses a modern stack so the site can scale into future services, blogs, and campaign landing pages without becoming hard to maintain.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: "Do you build websites for Bhopal businesses only?",
-        answer:
-          "No. Zeebrag supports brands in Bhopal and across India, with messaging and SEO structured around the markets you want to reach.",
-      },
-      {
-        question: "Will the site be SEO-ready?",
-        answer:
-          "Yes. We build websites with semantic structure, metadata, internal linking, image optimization, and performance best practices from the start.",
-      },
-      {
-        question: "Can the website support future landing pages and blogs?",
-        answer:
-          "Yes. The Zeebrag build approach prioritizes scalability so you can expand services, publish content, and launch new campaigns more easily.",
-      },
-    ],
-  },
-  "personal-branding": {
-    overview: [
-      "Founder-led trust can move faster than company-led trust, especially in competitive markets. In Bhopal, India, and broader digital-first industries, people often decide whether to engage based on whether the founder or executive presence feels credible, clear, and relevant. Zeebrag helps leaders build that authority through positioning, messaging, and repeatable content systems.",
-      "Our personal branding service is designed for founders who want more than likes or reach. We build a system that clarifies what you stand for, how your perspective is different, and where your expertise should show up across LinkedIn, website content, videos, and sales conversations. That creates stronger recall and makes business development easier.",
-      "The real value of personal branding is strategic. It improves trust with prospects, gives your company a stronger public face, and creates content assets that support marketing and hiring. Zeebrag helps translate founder insight into a clearer market advantage.",
-    ],
-    whyItMatters: [
-      {
-        heading: "Why founder authority speeds trust",
-        paragraphs: [
-          "When a founder communicates clearly and consistently, prospects feel they understand the business faster. That shortens the trust gap between discovery and inquiry. For many companies in India, this can be the difference between being ignored and being remembered.",
-          "Zeebrag builds personal brands that feel commercial as well as authentic. The goal is not just visibility. It is visibility that supports stronger conversations, better positioning, and more inbound interest.",
-        ],
-      },
-      {
-        heading: "Systems matter more than occasional posting",
-        paragraphs: [
-          "Random content rarely compounds. Strong founder brands use repeatable systems for sourcing ideas, refining narratives, publishing consistently, and linking content back to business goals. Zeebrag builds that operating system so authority grows over time instead of depending on bursts of effort.",
-          "This works especially well for founders serving Bhopal markets or larger India audiences because the same insights can be repurposed across local networking, digital outreach, and owned channels.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: "Is personal branding only for LinkedIn?",
-        answer:
-          "No. LinkedIn is important, but your personal brand should also support your website, podcasts, short-form content, speaking, and sales visibility.",
-      },
-      {
-        question: "Can founder branding help lead generation?",
-        answer:
-          "Yes. Better authority often improves inbound trust, warm introductions, and content performance, which supports stronger lead generation over time.",
-      },
-      {
-        question: "Do you help with messaging too?",
-        answer:
-          "Yes. Zeebrag works on positioning, narrative clarity, content themes, and execution systems so the brand feels cohesive and commercially useful.",
-      },
-    ],
-  },
-};
+export { serviceSeoContent } from "@/lib/service-seo-content";
 
 export const blogResourceContent = {
   overview: [

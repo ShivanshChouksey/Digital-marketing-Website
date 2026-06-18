@@ -1,15 +1,30 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { CalendlyPopupButton } from "@/components/site/calendly-popup-button";
 import { PageHero } from "@/components/site/page-hero";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { JsonLd } from "@/components/seo/json-ld";
 import { createPageMetadata } from "@/lib/metadata";
+import {
+  createOrganizationSchema,
+  createLocalBusinessSchema,
+  createPersonSchema,
+} from "@/lib/seo-schema";
+import { founderProfile, teamMembers } from "@/lib/site-data";
 
 export const metadata = createPageMetadata({
-  title: "About Zeebrag | Modern Branding and Growth Studio in India",
+  title: "About Zeebrag | Branding and Growth Studio in Bhopal, India",
   description:
-    "Learn how Zeebrag helps startups and modern brands across India and global markets build attention, trust, and measurable growth.",
+    "Learn about Zeebrag, a premium branding and growth studio in Bhopal, India. We help startups and modern brands build trust, attention, and measurable growth with SEO, paid media, web development, and personal branding.",
   path: "/about",
+  keywords: [
+    "about Zeebrag",
+    "branding studio Bhopal",
+    "growth agency India",
+    "digital marketing team India",
+    "Zeebrag founders",
+  ],
 });
 
 const principles = [
@@ -35,20 +50,64 @@ const principles = [
   },
 ];
 
+const expertiseAreas = [
+  {
+    title: "Search Engine Optimization (SEO)",
+    description: "Technical SEO, content strategy, keyword research, and local SEO for Bhopal and India-focused brands.",
+  },
+  {
+    title: "Paid Media (Meta & Google Ads)",
+    description: "Performance-driven ad campaigns with creative testing, audience segmentation, and conversion optimization.",
+  },
+  {
+    title: "Website Development",
+    description: "Premium Next.js websites with SEO-ready architecture, Core Web Vitals optimization, and conversion-focused design.",
+  },
+  {
+    title: "Personal Branding",
+    description: "Founder positioning, LinkedIn content systems, and authority-building strategies for B2B leaders.",
+  },
+  {
+    title: "Social Media Management",
+    description: "Platform-native content systems, content calendars, and creative direction for Instagram, LinkedIn, and Meta.",
+  },
+];
+
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={createOrganizationSchema()} />
+      <JsonLd data={createLocalBusinessSchema()} />
+      {teamMembers.map((member) => (
+        <JsonLd
+          key={member.name}
+          data={createPersonSchema({
+            name: member.name,
+            role: member.role,
+            description: member.bio,
+            sameAs: member.linkedIn ? [member.linkedIn] : undefined,
+          })}
+        />
+      ))}
+
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "About" },
+        ]}
+      />
+
       <PageHero
         eyebrow="About Zeebrag"
         title="Built for brands that want modern attention, stronger positioning, and trust that converts."
-        description="Zeebrag is a remote-first branding and growth studio built in India, working with startups, founders, and ambitious businesses across time zones."
+        description="Zeebrag is a remote-first branding and growth studio built in Bhopal, India, working with startups, founders, and ambitious businesses across India and global markets."
       />
 
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="about-content">
         <Container className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <Reveal>
             <article className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-950">
+              <h2 id="about-content" className="text-3xl font-bold tracking-tight text-slate-950">
                 Zeebrag was built for brands that want relevance, not recycled agency work.
               </h2>
               <p className="mt-4 text-base leading-8 text-slate-700">
@@ -99,7 +158,7 @@ export default function AboutPage() {
                 How We Think
               </p>
               <div className="mt-6 space-y-5 text-sm leading-7 text-slate-200">
-                <p>Built in India. Working with brands globally.</p>
+                <p>Built in Bhopal, India. Working with brands globally.</p>
                 <p>Creative enough to earn attention. Strategic enough to convert it.</p>
                 <p>Young team energy with a premium execution standard.</p>
                 <p>Fast communication, modern taste, and performance accountability.</p>
@@ -118,9 +177,10 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="bg-white py-20">
+      <section className="bg-white py-20" aria-labelledby="principles-heading">
         <Container>
           <Reveal>
+            <h2 id="principles-heading" className="sr-only">Zeebrag Core Principles</h2>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {principles.map((item) => (
                 <article
@@ -140,7 +200,85 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="expertise-heading">
+        <Container>
+          <Reveal>
+            <h2 id="expertise-heading" className="text-3xl font-bold tracking-tight text-slate-950">
+              Our expertise: digital marketing services for Indian businesses
+            </h2>
+            <p className="mt-4 text-base leading-8 text-slate-700">
+              Zeebrag combines strategy, creative, and technology to help brands in Bhopal and across India
+              grow. With 50+ brands served and deep expertise across five core disciplines, we deliver
+              integrated growth that compounds over time.
+            </p>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {expertiseAreas.map((area) => (
+                <article
+                  key={area.title}
+                  className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm"
+                >
+                  <h3 className="text-xl font-bold tracking-tight text-slate-950">{area.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{area.description}</p>
+                </article>
+              ))}
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      <section className="bg-white py-20" aria-labelledby="team-heading">
+        <Container>
+          <Reveal>
+            <h2 id="team-heading" className="text-3xl font-bold tracking-tight text-slate-950">
+              The Zeebrag team
+            </h2>
+            <p className="mt-4 text-base leading-8 text-slate-700">
+              Our team combines brand strategy, creative direction, performance marketing, and web development
+              expertise. Based in Bhopal, India, we work remotely with brands across time zones.
+            </p>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-xl font-bold tracking-tight text-slate-950">{founderProfile.name}</h3>
+                <p className="mt-1 text-sm font-semibold text-[var(--color-primary)]">{founderProfile.role}</p>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{founderProfile.bio}</p>
+                <p className="mt-3 text-sm font-semibold text-slate-700">{founderProfile.experience}</p>
+                {founderProfile.linkedIn && (
+                  <a
+                    href={founderProfile.linkedIn}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex text-sm font-semibold text-[var(--color-primary)] hover:underline"
+                  >
+                    View LinkedIn &rarr;
+                  </a>
+                )}
+              </article>
+              {teamMembers.map((member) => (
+                <article
+                  key={member.name}
+                  className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm"
+                >
+                  <h3 className="text-xl font-bold tracking-tight text-slate-950">{member.name}</h3>
+                  <p className="mt-1 text-sm font-semibold text-[var(--color-primary)]">{member.role}</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{member.bio}</p>
+                  {member.linkedIn && (
+                    <a
+                      href={member.linkedIn}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex text-sm font-semibold text-[var(--color-primary)] hover:underline"
+                    >
+                      View LinkedIn &rarr;
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      <section className="py-20" aria-labelledby="cta-heading">
         <Container>
           <Reveal>
             <div className="rounded-[2.5rem] bg-[linear-gradient(135deg,#02253f,#034C8C_55%,#0477BF)] p-8 text-white shadow-[0_30px_80px_rgba(3,76,140,0.24)] sm:p-12">
@@ -148,8 +286,8 @@ export default function AboutPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-white/65">
                   Work With Zeebrag
                 </p>
-                <h2 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
-                  If your brand is ready to look sharper and grow smarter, let&apos;s talk.
+                <h2 id="cta-heading" className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+                  If your brand is ready to look sharper and grow smarter, let's talk.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-slate-100">
                   We work across India and global markets with a clear focus on trust,
