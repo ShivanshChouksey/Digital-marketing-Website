@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const calendlyUrl =
-  process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/zeebrag/30min";
+  process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/shivansh-zeebrag/30min";
 const calendlyWidgetScriptSrc = "https://assets.calendly.com/assets/external/widget.js";
 
 declare global {
