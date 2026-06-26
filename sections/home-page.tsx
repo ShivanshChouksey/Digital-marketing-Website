@@ -389,7 +389,7 @@ export function HomePage() {
                 cultural range, while our positioning keeps the work globally relevant.
                 Learn more on the <Link href="/about" className="font-semibold text-[var(--color-primary)]">About page</Link>,
                 browse our <Link href="/blog" className="font-semibold text-[var(--color-primary)]">insights</Link>, or
-                use the <Link href="/contact#audit-form" className="font-semibold text-[var(--color-primary)]">contact page</Link>
+                use the <Link href="/contact#audit-form" className="font-semibold text-[var(--color-primary)]">contact page</Link>{" "}
                 when you are ready to move.
               </p>
             </div>

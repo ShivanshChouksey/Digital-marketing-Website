@@ -246,10 +246,10 @@ export function CalendlyPopupButton({
                     <button
                       type="button"
                       onClick={() => setOpen(false)}
-                      className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm transition hover:text-slate-950 sm:right-4 sm:top-4 sm:h-11 sm:w-11 sm:text-sm"
-                      aria-label="Close booking dialog"
+                      className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-white/95 text-[22px] font-bold leading-none text-[#EF4444] shadow-sm transition-all duration-200 hover:cursor-pointer hover:bg-[#F9FAFB] hover:text-[#DC2626] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 sm:right-4 sm:top-4 sm:h-11 sm:w-11 sm:text-[24px]"
+                      aria-label="Close"
                     >
-                      Close
+                      ×
                     </button>
 
                     <div className="grid flex-1 gap-0 lg:grid-cols-[minmax(18rem,0.38fr)_minmax(0,0.62fr)]">

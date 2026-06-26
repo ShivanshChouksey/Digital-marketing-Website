@@ -52,7 +52,7 @@ export default function ContactPage() {
                 Strategy conversations built around clarity, positioning, and growth outcomes.
               </h2>
               <div className="mt-8 grid gap-4 text-sm leading-7 text-slate-200">
-                <p>Email: contact.zeebrag@gmail.com, hello.zeebrag@gmail.com</p>
+                <p>Email: contact@zeebrag.com</p>
                 <p>Phone: +91 95225 55670</p>
                 <p>Location: Bhopal, Madhya Pradesh, India. Working with brands globally.</p>
                 <p>Available for calls across IST, UAE, UK and US-friendly hours.</p>

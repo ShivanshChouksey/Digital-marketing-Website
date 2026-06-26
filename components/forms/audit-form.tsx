@@ -29,7 +29,7 @@ export function AuditForm() {
       formData.append("_template", "table");
 
       const response = await fetch(
-        "https://formsubmit.co/ajax/contact.zeebrag@gmail.com",
+        "https://formsubmit.co/ajax/contact@zeebrag.com",
         {
           method: "POST",
           headers: {

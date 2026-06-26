@@ -49,7 +49,7 @@ export function Footer() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <CalendlyPopupButton label="Let's Talk" />
               <a
-                href="mailto:contact.zeebrag@gmail.com,hello.zeebrag@gmail.com"
+                href="mailto:contact@zeebrag.com"
                 className="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/16"
               >
                 Email Zeebrag
@@ -79,7 +79,7 @@ export function Footer() {
               brand equity.
             </p>
             <div className="mt-6 grid gap-2 text-sm text-slate-300">
-              <p>Email: contact.zeebrag@gmail.com, hello.zeebrag@gmail.com</p>
+              <p>Email: contact@zeebrag.com</p>
               <p>Phone: +91 95225 55670</p>
               <p>Available across India, UAE, UK and US-friendly hours</p>
             </div>

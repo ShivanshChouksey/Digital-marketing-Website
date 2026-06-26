@@ -17,7 +17,7 @@ export function createOrganizationSchema() {
     url: siteConfig.url,
     logo: `${siteConfig.url}/Zeebrag_logo.jpg-removebg-preview.png`,
     description: siteConfig.description,
-    email: "contact.zeebrag@gmail.com",
+    email: "contact@zeebrag.com",
     telephone: "+91-95225-55670",
     foundingDate: "2024",
     numberOfEmployees: {
@@ -191,7 +191,7 @@ export function createLocalBusinessSchema() {
     url: siteConfig.url,
     image: `${siteConfig.url}/Zeebrag_logo.jpg-removebg-preview.png`,
     telephone: "+91-95225-55670",
-    email: "contact.zeebrag@gmail.com",
+    email: "contact@zeebrag.com",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Bhopal",
