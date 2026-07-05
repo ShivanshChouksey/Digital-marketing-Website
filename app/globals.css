@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #034c8c;
+  --color-secondary: #0477bf;
+  --color-accent: #f26a1b;
+  --color-accent-hover: #f2541b;
+  --color-background: #f2f2f2;
+  --color-foreground: #0f172a;
+  --header-height: 5.5rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-manrope);
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+}
+
+html {
+  background: var(--color-background);
+  scroll-padding-top: calc(var(--header-height) + 1.5rem);
+}
+
+body {
+  font-family: var(--font-manrope), sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(4, 119, 191, 0.08), transparent 28%),
+    radial-gradient(circle at 15% 20%, rgba(3, 76, 140, 0.05), transparent 24%),
+    var(--color-background);
+  color: var(--color-foreground);
+}
+
+* {
+  border-color: rgb(226 232 240);
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(4, 119, 191, 0.2);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #02253f 0%, #034c8c 55%, #0477bf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px);
+}
+
+.section-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.52) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.52) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-up {
+    animation: fade-up 0.7s ease-out both;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}

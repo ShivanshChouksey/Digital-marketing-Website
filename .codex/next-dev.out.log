@@ -1,0 +1,11 @@
+
+> zeebrag-app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3002
+- Network:       http://10.130.230.11:3002
+✓ Ready in 716ms
+
+ GET / 200 in 1365ms (next.js: 243ms, application-code: 1122ms)
+ GET / 200 in 1540ms (next.js: 421ms, application-code: 1119ms)
