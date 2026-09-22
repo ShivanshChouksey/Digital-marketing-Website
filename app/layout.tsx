@@ -17,7 +17,6 @@ const manrope = Manrope({
 });
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
-const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export const metadata: Metadata = {
@@ -82,28 +81,56 @@ export default function RootLayout({
   return (
     <html lang="en" className={manrope.variable}>
       <head>
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://connect.facebook.net" />
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />
-      </head>
-      <body className="min-h-screen bg-[var(--color-background)] text-slate-950 antialiased">
-        <SkipToContent />
-        {googleAnalyticsId ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${googleAnalyticsId}');`}
-            </Script>
-          </>
-        ) : null}
+        <link
+          rel="preconnect"
+          href="https://www.googletagmanager.com"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://www.googletagmanager.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://connect.facebook.net"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://connect.facebook.net"
+        />
 
+        {/* Google Tag Manager */}
+        <Script
+          id="google-tag-manager"
+          strategy="afterInteractive"
+        >
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KJ2S3MMJ');
+          `}
+        </Script>
+      </head>
+
+      <body className="min-h-screen bg-[var(--color-background)] text-slate-950 antialiased">
+
+        {/* Google Tag Manager - noscript fallback */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KJ2S3MMJ"
+            height="0"
+            width="0"
+            style={{
+              display: "none",
+              visibility: "hidden",
+            }}
+          />
+        </noscript>
+
+        <SkipToContent />
+
+        {/* Meta Pixel */}
         {metaPixelId ? (
           <Script id="meta-pixel" strategy="lazyOnload">
             {`!function(f,b,e,v,n,t,s)
@@ -120,7 +147,11 @@ fbq('track', 'PageView');`}
         ) : null}
 
         <Navbar />
-        <main id="main-content" role="main">{children}</main>
+
+        <main id="main-content" role="main">
+          {children}
+        </main>
+
         <Footer />
         <WhatsAppFloat />
         <MobileStickyCta />
