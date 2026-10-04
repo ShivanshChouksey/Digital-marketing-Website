@@ -287,7 +287,7 @@ export default function AboutPage() {
                   Work With Zeebrag
                 </p>
                 <h2 id="cta-heading" className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
-                  If your brand is ready to look sharper and grow smarter, let's talk.
+                  If your brand is ready to look sharper and grow smarter, let&apos;s talk.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-slate-100">
                   We work across India and global markets with a clear focus on trust,

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="1460" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#0B2238"/><stop offset="1" stop-color="#071522"/></linearGradient>
+    <linearGradient id="line" x1="382" y1="650" x2="1170" y2="278" gradientUnits="userSpaceOnUse"><stop stop-color="#55B7EB"/><stop offset="1" stop-color="#FF8A55"/></linearGradient>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse"><path d="M56 0H0v56" stroke="#B9D8EB" stroke-opacity=".08"/></pattern>
+  </defs>
+  <rect width="1600" height="960" rx="42" fill="url(#bg)"/>
+  <rect width="1600" height="960" rx="42" fill="url(#grid)"/>
+  <circle cx="1370" cy="130" r="280" fill="#176092" fill-opacity=".2"/>
+  <circle cx="210" cy="810" r="280" fill="#E46F44" fill-opacity=".09"/>
+  <path d="M0 739c194-75 326-78 487-22 167 58 305 41 452-27 194-90 392-101 661-12v282H0V739Z" fill="#0C2941"/>
+  <path d="M0 804c215-59 336-50 502-3 183 51 326 36 494-23 202-71 381-80 604-29v211H0V804Z" fill="#0A2236" stroke="#4383A9" stroke-opacity=".22"/>
+  <g opacity=".78" stroke="#8FBAD1" stroke-opacity=".35">
+    <path d="M1160 550V385h126v165m-96-112h18m-18 36h18m26-36h18m-18 36h18"/>
+    <path d="M1300 550V320h183v230m-144-169h20m-20 39h20m-20 39h20m40-78h20m-20 39h20m-20 39h20m40-78h20m-20 39h20m-20 39h20"/>
+    <path d="M1042 550V434h93v116m-69-73h16m-16 29h16m18-29h16m-16 29h16"/>
+    <path d="M144 625V497h125v128m-96-84h18m-18 34h18m26-34h18m-18 34h18"/>
+    <path d="M293 625V441h165v184m-130-137h19m-19 34h19m-19 34h19m37-68h19m-19 34h19m-19 34h19m37-68h19m-19 34h19m-19 34h19"/>
+  </g>
+  <g>
+    <rect x="444" y="166" width="708" height="472" rx="26" fill="#F8FBFD"/>
+    <rect x="444.5" y="166.5" width="707" height="471" rx="25.5" stroke="#D9E6EE"/>
+    <circle cx="479" cy="201" r="5" fill="#EF8154"/><circle cx="498" cy="201" r="5" fill="#D0DCE4"/><circle cx="517" cy="201" r="5" fill="#D0DCE4"/>
+    <rect x="478" y="235" width="200" height="11" rx="5.5" fill="#0B2941"/>
+    <rect x="478" y="261" width="298" height="7" rx="3.5" fill="#A8BAC5"/>
+    <rect x="478" y="286" width="613" height="1" fill="#E0E8ED"/>
+    <rect x="478" y="310" width="194" height="278" rx="16" fill="#F0F6FA"/>
+    <rect x="496" y="331" width="73" height="9" rx="4.5" fill="#557080"/>
+    <rect x="496" y="355" width="142" height="1" fill="#D7E2E8"/>
+    <rect x="496" y="374" width="122" height="8" rx="4" fill="#C0CFD7"/><rect x="496" y="397" width="154" height="8" rx="4" fill="#C0CFD7"/>
+    <rect x="496" y="420" width="130" height="8" rx="4" fill="#C0CFD7"/>
+    <rect x="496" y="462" width="156" height="43" rx="10" fill="#0B5D91"/><path d="m515 484 7 7 14-16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="699" y="310" width="422" height="278" rx="16" fill="white" stroke="#E2EAF0"/>
+    <path d="M724 536h371M724 487h371M724 438h371M724 389h371" stroke="#E8EEF2"/>
+    <path d="m738 502 79-38 73 18 79-72 75 11 76-73" stroke="url(#line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1042" cy="348" r="8" fill="#FF8752" stroke="white" stroke-width="4"/>
+    <rect x="724" y="330" width="98" height="9" rx="4.5" fill="#557080"/>
+  </g>
+  <text x="112" y="154" fill="#9BCBE6" font-family="Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="4">ZEEBRAG  /  DIGITAL GROWTH</text>
+  <text x="112" y="864" fill="#F7FAFC" font-family="Arial,sans-serif" font-size="38" font-weight="700">Choose with clarity. Grow with intention.</text>
+  <text x="112" y="901" fill="#A8C0D0" font-family="Arial,sans-serif" font-size="20">A practical guide for growing businesses in Bhopal</text>
+</svg>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BhopalAgencyGuide } from "@/components/blog/bhopal-agency-guide";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PageHero } from "@/components/site/page-hero";
@@ -29,6 +30,27 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     });
   }
 
+  if (slug === "how-to-choose-digital-marketing-agency-bhopal") {
+    return createPageMetadata({
+      title: post.seoTitle,
+      description: post.seoDescription,
+      path: `/blog/${post.slug}`,
+      type: "article",
+      publishedTime: post.publishedAt,
+      authors: [post.author],
+      image: "/images/digital-marketing-agency-bhopal-guide-og.png",
+      keywords: [
+        "choosing a digital marketing agency in Bhopal",
+        "digital marketing agency in Bhopal",
+        "digital marketing company in Bhopal",
+        "how to choose a digital marketing agency",
+        "digital marketing services in Bhopal",
+        "SEO agency in Bhopal",
+        "digital marketing for businesses in Bhopal",
+      ],
+    });
+  }
+
   return createPageMetadata({
     title: post.seoTitle,
     description: post.seoDescription,
@@ -46,6 +68,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   if (!post) {
     notFound();
+  }
+
+  if (slug === "how-to-choose-digital-marketing-agency-bhopal") {
+    return <BhopalAgencyGuide />;
   }
 
   const relatedServices = post.relatedServices
